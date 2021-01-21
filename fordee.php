@@ -10,11 +10,11 @@
         use \PDO;
 
         class Hash {
-            function key() {
+            public function key() {
                 return $key = '58c02ac8b9ba04ec61cb32165060eca1c8f6618a'; 
             }
 
-            function encrypt($data, $key) {
+            public function encrypt($data, $key) {
                 $method 	    = 'aes-256-cbc';
                 $iv_lenght 	    = openssl_cipher_iv_length($method);  
                 $iv_bytes	    = openssl_random_pseudo_bytes($iv_lenght);
@@ -22,7 +22,7 @@
                 return base64_encode($ciphertext . '|:' . $iv_bytes);
             }
             
-            function decrypt($data, $key) {
+            public function decrypt($data, $key) {
                 $encrypted	    = base64_decode($data);
                 $separator 	    = explode('|:', $encrypted);
                 return openssl_decrypt($separator[0], 'aes-256-cbc', $key, 0, $separator[1]);
@@ -55,14 +55,14 @@
         }
 
         class Validate {
-            function token($x,$y,$token) {
+            public function token($x,$y,$token) {
                 if(sha1(hash('sha512',$x.$y.'>F0RD3E-T0K3N-2O20!<')) == $token){
                     return true;
                 };
                 return false;
             }
 
-            function strip($x,$y = true) {
+            public function strip($x,$y = true) {
                 return $y ? htmlspecialchars(strip_tags($x)) : $x ;
             }
         }
